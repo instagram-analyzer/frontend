@@ -15,8 +15,10 @@ export const TopSection = styled.div`
     display: flex;
     align-items: center;
     img{
-        min-width: 125px;
-        min-height: 125px;
+        min-width: 135px;
+        min-height: 135px;
+        max-height: 135px;
+        max-width: 135px;
         border: 2px solid #FFFFFF;
         border-radius: 85px;
         margin: ${spacing/1.5}px;
