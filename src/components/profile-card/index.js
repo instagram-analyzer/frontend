@@ -26,9 +26,18 @@ const ProfileCard = ({
             </div>
         </TopSection>
         <BottomSection>
-            <h3>{follower_count}</h3>
-            <h3>{following_count}</h3>
-            <h3>{posts_count}</h3>
+            <div>
+                <h3>{follower_count}</h3>
+                <h4>followers</h4>
+            </div>
+            <div className="middle">
+                <h3>{following_count}</h3>
+                <h4>followers</h4>
+            </div>
+            <div>
+                <h3>{posts_count}</h3>
+                <h4>followers</h4>
+            </div>
         </BottomSection>
     </ProfileCardContainer>
 )
