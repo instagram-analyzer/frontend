@@ -1,10 +1,13 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
+
+import InstagramStats from './containers/instagram-stats';
 
 class App extends React.Component {
   render(){
     return (
       <>
-        <h1>App</h1>
+        <Route exact path="/" component={InstagramStats}/>
       </>
     );
   }
