@@ -5,10 +5,11 @@ import { spacing, paper } from '../main-stylesheet';
 export const ProfileCardContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 430px;
+    width: 470px;
     margin: ${spacing}px;
     padding: ${spacing}px;
     ${paper};
+    text-shadow: 0px 2px 8px rgba(0,0,0,0.3);
 `;
 
 export const TopSection = styled.div`

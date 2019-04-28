@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import instaAccountReducer from './instaAccountReducer.js';
+import instagramReducer from './InstagramReducer.js';
 
 export default combineReducers({
-    instaAccountReducer
+    instagramReducer
 })

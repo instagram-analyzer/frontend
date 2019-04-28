@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import NumberFormat from 'react-number-format';
 
 import { ProfileCardContainer, TopSection, BottomSection } from "./profileCardStyles.js"; 
 
@@ -27,16 +28,16 @@ const ProfileCard = ({
         </TopSection>
         <BottomSection>
             <div>
-                <h3>{follower_count}</h3>
+                <h3><NumberFormat value={follower_count} displayType={'text'} thousandSeparator={true}/></h3>
                 <h4>followers</h4>
             </div>
             <div className="middle">
-                <h3>{following_count}</h3>
-                <h4>followers</h4>
+                <h3><NumberFormat value={following_count} displayType={'text'} thousandSeparator={true}/></h3>
+                <h4>following</h4>
             </div>
             <div>
-                <h3>{posts_count}</h3>
-                <h4>followers</h4>
+                <h3><NumberFormat value={posts_count} displayType={'text'} thousandSeparator={true}/></h3>
+                <h4>posts</h4>
             </div>
         </BottomSection>
     </ProfileCardContainer>
