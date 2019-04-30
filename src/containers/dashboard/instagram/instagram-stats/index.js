@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getAccount } from '../../store/actions/InstagramActions.js';
-import ProfileCard from '../../components/profile-card';
-import AverageCards from '../../components/profile-card/average-cards';
+import { getAccount, getAccountGrowth } from '../../../../store/actions/InstagramActions.js';
+import ProfileCard from '../../../../components/profile-card';
+import AverageCards from '../../../../components/profile-card/average-cards';
+// import LineGraph from '../../../../components/graphs/line-graph';
 
 export class InstagramStats extends React.Component {
   componentDidMount(){
-    this.props.getAccount('champagnepapi');
+    this.props.getAccount(this.props.match.params.username);
+    this.props.getAccountGrowth(this.props.match.params.username)
   }
 
   render() {
@@ -48,18 +50,29 @@ export class InstagramStats extends React.Component {
             average_views={average_views}
           />
         </div>
+        {/* <div>
+          <LineGraph
+            data={this.props.accountStats.map(d => ({
+              name: d.created_at,
+              pv: d.follower_count,
+              uv: d.posts_count
+            }))}
+          />
+        </div> */}
       </>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  instagramAccount: state.instagramReducer.instagramAccount
+  instagramAccount: state.instagramReducer.instagramAccount,
+  accountStats: state.instagramReducer.stats,
 })
 
 export default connect(
   mapStateToProps,
   {
-    getAccount
+    getAccount,
+    getAccountGrowth
   }
 )(InstagramStats)
