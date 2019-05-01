@@ -46,7 +46,7 @@ export const PostItem = styled.h2`
     padding: ${spacing/1.5}px ${spacing/2.7}px;
     border-bottom: ${props => props.border && `1px solid rgba(0, 0, 0, 0.1)`};
     i{
-        color: ${props => props.color ? props.color : "black"}
+        color: ${props => props.color ? props.color : "black"};
         margin-right: ${spacing/2.8}px;
     }
 `;

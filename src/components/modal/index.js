@@ -11,11 +11,11 @@ export const Modal = ({ Component, props, header, handleClose }) => (
     <ModalOverlay 
     onClick={(e) => {
         e.stopPropagation();
-        // handleClose();
+        props.handleClose();
         console.log('clicked')
     }}
     >
-        <ModalContainer>
+        <ModalContainer onClick={(e) => {e.stopPropagation();}}>
             <ModalHeader>
                 <h2>{header || "Provide a header prop"}</h2>
             </ModalHeader>

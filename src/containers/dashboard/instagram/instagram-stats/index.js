@@ -43,7 +43,7 @@ export class InstagramStats extends React.Component {
 
   handleServiceFormSubmit = e => {
     e.preventDefault();
-    
+    this.toggleModal();
     this.props.sendServices({
       ...this.state.serviceForm,
       link: `https://instagram.com/p/${this.state.currentPost}`
@@ -51,7 +51,6 @@ export class InstagramStats extends React.Component {
   }
 
   toggleModal = (e) => {
-    e.preventDefault();
     this.setState({
       servicesModalOpen: !this.state.servicesModalOpen
     })
@@ -126,7 +125,7 @@ export class InstagramStats extends React.Component {
             Component={InstagramServiceForm}
             props={{
               services: services,
-              toggleModal: this.toggleModal,
+              handleClose: this.toggleModal,
               handleChange: this.handleServiceFormChange,
               handleSubmit: this.handleServiceFormSubmit
             }}
