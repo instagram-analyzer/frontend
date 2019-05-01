@@ -2,12 +2,6 @@ import auth0 from 'auth0-js';
 import axios from 'axios';
 import jwtDecode from "jwt-decode";
 
-const AUTH_CONFIG = {
-    domain: process.env.REACT_APP_AUTH0_DOMAIN,
-    clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
-    redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL
-}
-
 const history = require("history").createBrowserHistory();
 
 class Auth{
@@ -19,9 +13,9 @@ class Auth{
 
     //-------------------- Auth Config --------------------
     auth0 = new auth0.WebAuth({
-        domain: "socialanalyzer.auth0.com",
-        clientID: "dpwDYZVnSdMhJ6l0cmMrrAwScM9X5wGr",
-        redirectUri: "http://localhost:3000/callback",
+        domain: process.env.REACT_APP_AUTH0_DOMAIN,
+        clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
+        redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
         responseType: "token id_token",
         scope: "openid profile email offline_access",
         sso: false

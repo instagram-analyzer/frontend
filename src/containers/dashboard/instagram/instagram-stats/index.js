@@ -14,6 +14,7 @@ import Post from '../../../../components/instagram-post';
 import Modal from '../../../../components/modal';
 import InstagramServiceForm from '../../../../components/instagram-service-form';
 // import LineGraph from '../../../../components/graphs/line-graph';
+import Footer from '../../../../components/footer';
 
 export class InstagramStats extends React.Component {
   state = {
@@ -141,6 +142,31 @@ export class InstagramStats extends React.Component {
             }))}
           />
         </div> */}
+
+        <Footer
+          links={[
+            {
+              exact: false,
+              path: "/",
+              text: "Home"
+            },
+            {
+              exact: false,
+              path: "/dashboard/instagram",
+              text: "Search"
+            },
+            {
+              exact: false,
+              path: "/dashboard/instagram/tracked-accounts",
+              text: "Tracked Accounts"
+            },
+            {
+              exact: false,
+              path: "/dashboard/instagram/saved-accounts",
+              text: "Saved Accounts"
+            },
+          ]}
+        />
       </>
     )
   }
