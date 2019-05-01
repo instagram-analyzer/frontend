@@ -1,19 +1,72 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getAccount, getAccountGrowth } from '../../../../store/actions/InstagramActions.js';
+import { PostsContainer } from './containerStyles.js';
+import { 
+  getAccount, 
+  getAccountGrowth, 
+  getServices,
+  sendServices
+} from '../../../../store/actions/InstagramActions.js';
 import ProfileCard from '../../../../components/profile-card';
 import AverageCards from '../../../../components/profile-card/average-cards';
+import Post from '../../../../components/instagram-post';
+import Modal from '../../../../components/modal';
+import InstagramServiceForm from '../../../../components/instagram-service-form';
 // import LineGraph from '../../../../components/graphs/line-graph';
 
 export class InstagramStats extends React.Component {
+  state = {
+    servicesModalOpen: false,
+    currentPost: '',
+    serviceForm: {
+      action: 'add',
+      service: '',
+      quantity: ''
+    }
+  }
+
   componentDidMount(){
     this.props.getAccount(this.props.match.params.username);
-    this.props.getAccountGrowth(this.props.match.params.username)
+    this.props.getAccountGrowth(this.props.match.params.username);
+    this.props.getServices();
+  }
+
+  handleServiceFormChange = (e) => {
+    this.setState({
+      serviceForm:{
+        ...this.state.serviceForm,
+        [e.target.name]: e.target.value
+      }
+    })
+  }
+
+  handleServiceFormSubmit = e => {
+    e.preventDefault();
+    
+    this.props.sendServices({
+      ...this.state.serviceForm,
+      link: `https://instagram.com/p/${this.state.currentPost}`
+    })
+  }
+
+  toggleModal = (e) => {
+    e.preventDefault();
+    this.setState({
+      servicesModalOpen: !this.state.servicesModalOpen
+    })
+  }
+
+  selectPost = (e, shortcode) => {
+    e.preventDefault();
+    this.setState({
+      currentPost: shortcode
+    })
   }
 
   render() {
-    const { instagramAccount } = this.props;
+    const { instagramAccount, services } = this.props;
+    const { servicesModalOpen } = this.state;
 
     const { 
       account_bio,
@@ -27,7 +80,8 @@ export class InstagramStats extends React.Component {
       posts_count,
       average_likes,
       average_comments,
-      average_views
+      average_views,
+      posts
     } = instagramAccount;
 
     return (
@@ -50,6 +104,35 @@ export class InstagramStats extends React.Component {
             average_views={average_views}
           />
         </div>
+        
+        {typeof posts !== "undefined" &&
+          <PostsContainer>
+            {posts.map(p => {
+              return(
+                <Post 
+                  key={p.id}
+                  post={p} 
+                  toggleModal={this.toggleModal}
+                  selectPost={this.selectPost}
+                />
+              )
+            })}
+          </PostsContainer>
+        }
+
+        {servicesModalOpen && 
+          <Modal
+            header="Select Options"
+            Component={InstagramServiceForm}
+            props={{
+              services: services,
+              toggleModal: this.toggleModal,
+              handleChange: this.handleServiceFormChange,
+              handleSubmit: this.handleServiceFormSubmit
+            }}
+          />
+        }
+
         {/* <div>
           <LineGraph
             data={this.props.accountStats.map(d => ({
@@ -67,12 +150,15 @@ export class InstagramStats extends React.Component {
 const mapStateToProps = state => ({
   instagramAccount: state.instagramReducer.instagramAccount,
   accountStats: state.instagramReducer.stats,
+  services: state.instagramReducer.services
 })
 
 export default connect(
   mapStateToProps,
   {
     getAccount,
-    getAccountGrowth
+    getAccountGrowth,
+    getServices,
+    sendServices
   }
 )(InstagramStats)

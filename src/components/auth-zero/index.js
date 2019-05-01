@@ -2,9 +2,13 @@ import auth0 from 'auth0-js';
 import axios from 'axios';
 import jwtDecode from "jwt-decode";
 
-import { AUTH_CONFIG } from './auth0-variables.js';
+const AUTH_CONFIG = {
+    domain: process.env.REACT_APP_AUTH0_DOMAIN,
+    clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
+    redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL
+}
 
-const history = require("history").createBrowserHistory;
+const history = require("history").createBrowserHistory();
 
 class Auth{
     accessToken;
@@ -69,8 +73,7 @@ class Auth{
             email: decoded.email,
             image_url: decoded.picture,
             nickname: decoded.nickname,
-            sub: decoded.sub,
-            acct_type: localStorage.getItem("acct_type") || "advertiser"
+            sub: decoded.sub
         };
 
         const config = {
@@ -80,7 +83,7 @@ class Auth{
         };
 
         axios
-            .post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/register`, user, config)
+            .post(`https://social-analyzer2.herokuapp.com/api/auth/register`, user, config)
             .then(res => {})
             .catch(err => {});
         history.replace("/dashboard");

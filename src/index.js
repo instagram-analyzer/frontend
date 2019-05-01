@@ -6,14 +6,14 @@ import { BrowserRouter as Router, withRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import store from './store';
-//toast here
+import Toasts from './components/toasts';
 
 const AppWithRouter = withRouter(App);
 ReactDOM.render(
 <Provider store={store}>
     <Router>
         <AppWithRouter />
-        {/* toast here */}
+        <Toasts/>
     </Router>
 </Provider>
 , document.getElementById('root'));

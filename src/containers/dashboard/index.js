@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import authHOC from '../../components/auth-hoc';
 
 import NavBar from '../../components/navigation';
 import Instagram from './instagram';
@@ -15,4 +16,4 @@ export class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard
+export default authHOC(Dashboard)
