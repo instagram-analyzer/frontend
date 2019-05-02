@@ -5,8 +5,8 @@ import { paper, spacing, primary, secondary, accent } from '../main-stylesheet';
 export const PostContainer = styled.div`
     display: flex;
     flex-direction: column;
-    max-width: 400px;
-    margin: ${spacing}px;
+    width: 24%;
+    margin-bottom: ${spacing*3}px;
     button{
         padding: ${spacing/1.6}px 0;
         border: unset;
@@ -19,6 +19,12 @@ export const PostContainer = styled.div`
             cursor: pointer;
             background-color: ${secondary};
         }
+    }
+    @media(max-width: 1375px){
+        width: 49%
+    }
+    @media(max-width: 640px){
+        width: 100%
     }
 `;
 
@@ -52,7 +58,7 @@ export const PostItem = styled.h2`
 `;
 
 export const PostImage = styled.div`
-    width: 360px;
+    width: 100%;
     height: 360px;
     margin: unset;
     padding: unset;

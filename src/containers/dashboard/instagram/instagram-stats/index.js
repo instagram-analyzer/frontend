@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { PostsContainer } from './containerStyles.js';
+import { PostsContainer, ProfileContainer } from './containerStyles.js';
 import { 
   getAccount, 
   getAccountGrowth, 
@@ -13,7 +13,7 @@ import AverageCards from '../../../../components/profile-card/average-cards';
 import Post from '../../../../components/instagram-post';
 import Modal from '../../../../components/modal';
 import InstagramServiceForm from '../../../../components/instagram-service-form';
-// import LineGraph from '../../../../components/graphs/line-graph';
+import LineGraph from '../../../../components/graphs/line-graph';
 import Footer from '../../../../components/footer';
 
 export class InstagramStats extends React.Component {
@@ -28,9 +28,20 @@ export class InstagramStats extends React.Component {
   }
 
   componentDidMount(){
-    this.props.getAccount(this.props.match.params.username);
-    this.props.getAccountGrowth(this.props.match.params.username);
     this.props.getServices();
+    this.props.getAccount(this.props.match.params.username);
+    this.startUpdatingStats();
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.dataInterval);
+  }
+  
+  startUpdatingStats = () => {
+    this.dataInterval = setInterval(() => {
+      this.props.getAccount(this.props.match.params.username);
+      this.props.getAccountGrowth(this.props.match.params.username);
+    }, 2500)
   }
 
   handleServiceFormChange = (e) => {
@@ -86,24 +97,38 @@ export class InstagramStats extends React.Component {
 
     return (
       <>
-        <div>
-          <ProfileCard
-            user_name={account_username}
-            full_name={full_name}
-            bio={account_bio}
-            bio_url={account_bio_url}
-            account_img={account_image_url}
-            follower_count={follower_count}
-            following_count={following_count}
-            posts_count={posts_count}
-            is_verified={is_verified}
-          />
-          <AverageCards 
-            average_likes={average_likes}
-            average_comments={average_comments}
-            average_views={average_views}
-          />
-        </div>
+        <ProfileContainer>
+          <div>
+            <ProfileCard
+              user_name={account_username}
+              full_name={full_name}
+              bio={account_bio}
+              bio_url={account_bio_url}
+              account_img={account_image_url}
+              follower_count={follower_count}
+              following_count={following_count}
+              posts_count={posts_count}
+              is_verified={is_verified}
+            />
+            <AverageCards 
+              average_likes={average_likes}
+              average_comments={average_comments}
+              average_views={average_views}
+            />
+          </div>
+          {/* <div className="graph-container">
+            <div className="graph-header">
+              <h1>test</h1>
+            </div> */}
+            <LineGraph
+              data={this.props.accountStats.map(d => ({
+                name: d.created_at,
+                pv: d.follower_count,
+                uv: d.posts_count
+              }))}
+            />
+          {/* </div> */}
+        </ProfileContainer>
         
         {typeof posts !== "undefined" &&
           <PostsContainer>
@@ -133,15 +158,9 @@ export class InstagramStats extends React.Component {
           />
         }
 
-        {/* <div>
-          <LineGraph
-            data={this.props.accountStats.map(d => ({
-              name: d.created_at,
-              pv: d.follower_count,
-              uv: d.posts_count
-            }))}
-          />
-        </div> */}
+        <div>
+
+        </div>
 
         <Footer
           links={[
