@@ -82,9 +82,8 @@ class Auth {
         user,
         config
       )
-      .then(res => {})
+      .then(res => (window.location.href = "/dashboard/instagram"))
       .catch(err => {});
-    history.replace("/dashboard/instagram");
   };
 
   logout = async () => {
