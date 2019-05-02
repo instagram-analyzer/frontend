@@ -2,6 +2,10 @@ import styled from 'styled-components';
 
 import { spacing, paper } from '../main-stylesheet';
 
+export const NavSpacing = styled.div`
+    height: 55px;
+`;
+
 export const NavbarContainer = styled.nav`
     position: fixed;
     top: 0;
