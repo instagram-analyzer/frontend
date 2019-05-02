@@ -1,11 +1,17 @@
-import React from 'react';
+import React from "react";
 
-const Callback = () => {
-  return (
-    <>
-      <h1>loading...</h1>
-    </>
-  )
+class Callback extends React.Component {
+  componentDidMount = () => {
+    window.location.href = "/dashboard/instagram";
+  };
+
+  render() {
+    return (
+      <>
+        <h1>loading...</h1>
+      </>
+    );
+  }
 }
 
 export default Callback;
