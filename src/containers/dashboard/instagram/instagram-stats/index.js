@@ -1,57 +1,58 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 
-import { PostsContainer, ProfileContainer } from './containerStyles.js';
-import { 
-  getAccount, 
-  getAccountGrowth, 
+import { PostsContainer, ProfileContainer } from "./containerStyles.js";
+import {
+  getAccount,
+  getAccountGrowth,
   getServices,
-  sendServices
-} from '../../../../store/actions/InstagramActions.js';
-import ProfileCard from '../../../../components/profile-card';
-import AverageCards from '../../../../components/profile-card/average-cards';
-import Post from '../../../../components/instagram-post';
-import Modal from '../../../../components/modal';
-import InstagramServiceForm from '../../../../components/instagram-service-form';
-import LineGraph from '../../../../components/graphs/line-graph';
-import Footer from '../../../../components/footer';
-
+  sendServices,
+  getPosts
+} from "../../../../store/actions/InstagramActions.js";
+import ProfileCard from "../../../../components/profile-card";
+import AverageCards from "../../../../components/profile-card/average-cards";
+import Post from "../../../../components/instagram-post";
+import Modal from "../../../../components/modal";
+import InstagramServiceForm from "../../../../components/instagram-service-form";
+import LineGraph from "../../../../components/graphs/line-graph";
+import Footer from "../../../../components/footer";
+import DataTable from "../../../../components/table";
 export class InstagramStats extends React.Component {
   state = {
     servicesModalOpen: false,
-    currentPost: '',
+    currentPost: "",
     serviceForm: {
-      action: 'add',
-      service: '',
-      quantity: ''
+      action: "add",
+      service: "",
+      quantity: ""
     }
-  }
+  };
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.getServices();
     this.props.getAccount(this.props.match.params.username);
     this.startUpdatingStats();
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(this.dataInterval);
   }
-  
+
   startUpdatingStats = () => {
     this.dataInterval = setInterval(() => {
       this.props.getAccount(this.props.match.params.username);
       this.props.getAccountGrowth(this.props.match.params.username);
-    }, 2500)
-  }
+    }, 2500);
+  };
 
-  handleServiceFormChange = (e) => {
+  handleServiceFormChange = e => {
     this.setState({
-      serviceForm:{
+      serviceForm: {
         ...this.state.serviceForm,
         [e.target.name]: e.target.value
       }
-    })
-  }
+    });
+  };
 
   handleServiceFormSubmit = e => {
     e.preventDefault();
@@ -59,27 +60,27 @@ export class InstagramStats extends React.Component {
     this.props.sendServices({
       ...this.state.serviceForm,
       link: `https://instagram.com/p/${this.state.currentPost}`
-    })
-  }
+    });
+  };
 
-  toggleModal = (e) => {
+  toggleModal = e => {
     this.setState({
       servicesModalOpen: !this.state.servicesModalOpen
-    })
-  }
+    });
+  };
 
   selectPost = (e, shortcode) => {
     e.preventDefault();
     this.setState({
       currentPost: shortcode
-    })
-  }
+    });
+  };
 
   render() {
-    const { instagramAccount, services } = this.props;
+    const { instagramAccount, services, getPosts } = this.props;
     const { servicesModalOpen } = this.state;
 
-    const { 
+    const {
       account_bio,
       account_bio_url,
       account_image_url,
@@ -92,7 +93,8 @@ export class InstagramStats extends React.Component {
       average_likes,
       average_comments,
       average_views,
-      posts
+      posts,
+      instagram_id
     } = instagramAccount;
 
     return (
@@ -110,42 +112,44 @@ export class InstagramStats extends React.Component {
               posts_count={posts_count}
               is_verified={is_verified}
             />
-            <AverageCards 
+            <AverageCards
               average_likes={average_likes}
               average_comments={average_comments}
               average_views={average_views}
             />
           </div>
-          {/* <div className="graph-container">
+          <div className="graph-container">
             <div className="graph-header">
-              <h1>test</h1>
-            </div> */}
-            <LineGraph
-              data={this.props.accountStats.map(d => ({
-                name: d.created_at,
-                pv: d.follower_count,
-                uv: d.posts_count
-              }))}
-            />
-          {/* </div> */}
+              <button onClick={() => getPosts(instagram_id)}>
+                GET ALL POSTS
+              </button>
+            </div>
+            {typeof posts !== "undefined" && <DataTable posts={posts} />}
+            {/*<LineGraph
+            data={this.props.accountStats.map(d => ({
+              name: d.created_at,
+              pv: d.follower_count,
+              uv: d.posts_count
+            }))}
+          />*/}
+          </div>
         </ProfileContainer>
-        
-        {typeof posts !== "undefined" &&
+
+        {typeof posts !== "undefined" && (
           <PostsContainer>
             {posts.map(p => {
-              return(
-                <Post 
+              return (
+                <Post
                   key={p.id}
-                  post={p} 
+                  post={p}
                   toggleModal={this.toggleModal}
                   selectPost={this.selectPost}
                 />
-              )
+              );
             })}
           </PostsContainer>
-        }
-
-        {servicesModalOpen && 
+        )}
+        {servicesModalOpen && (
           <Modal
             header="Select Options"
             Component={InstagramServiceForm}
@@ -156,12 +160,8 @@ export class InstagramStats extends React.Component {
               handleSubmit: this.handleServiceFormSubmit
             }}
           />
-        }
-
-        <div>
-
-        </div>
-
+        )}
+        <div />
         <Footer
           links={[
             {
@@ -183,11 +183,11 @@ export class InstagramStats extends React.Component {
               exact: false,
               path: "/dashboard/instagram/saved-accounts",
               text: "Saved Accounts"
-            },
+            }
           ]}
         />
       </>
-    )
+    );
   }
 }
 
@@ -195,7 +195,7 @@ const mapStateToProps = state => ({
   instagramAccount: state.instagramReducer.instagramAccount,
   accountStats: state.instagramReducer.stats,
   services: state.instagramReducer.services
-})
+});
 
 export default connect(
   mapStateToProps,
@@ -203,6 +203,7 @@ export default connect(
     getAccount,
     getAccountGrowth,
     getServices,
-    sendServices
+    sendServices,
+    getPosts
   }
-)(InstagramStats)
+)(InstagramStats);
