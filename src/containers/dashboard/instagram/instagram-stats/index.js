@@ -31,7 +31,7 @@ export class InstagramStats extends React.Component {
   componentDidMount() {
     this.props.getServices();
     this.props.getAccount(this.props.match.params.username);
-    this.startUpdatingStats();
+    // this.startUpdatingStats();
   }
 
   componentWillUnmount() {
