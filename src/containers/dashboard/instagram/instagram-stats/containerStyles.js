@@ -10,16 +10,6 @@ import {
 
 export const ProfileContainer = styled.div`
   display: flex;
-  .graph-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    width: 99%;
-  }
-  .graph-header {
-    margin: ${spacing}px ${spacing}px 0 ${spacing}px;
-  }
 `;
 
 export const PostsTable = styled.div`
@@ -36,9 +26,41 @@ export const PostsTable = styled.div`
   }
 `;
 
-export const PostsContainer = styled.div`
+export const GraphContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: space-between;
-  margin: ${spacing}px;
+  height: 100%;
+  width: 100%;
+  .graph-header {
+    margin: ${spacing}px ${spacing}px 0 ${spacing}px;
+    font-size: 2rem;
+    font-weight: 300;
+    span{
+      font-size: 0.8rem;
+      font-weight: 400;
+      margin-left: ${spacing/3}px;
+    }
+  }
+`;
+
+export const PostsContainer = styled.div`
+  .posts-header{
+    h2{
+      margin: ${spacing}px ${spacing}px 0 ${spacing}px;
+      font-size: 2rem;
+      font-weight: 300;
+      span{
+        font-size: 0.8rem;
+        font-weight: 400;
+        margin-left: ${spacing/3}px;
+      }
+    }
+  }
+  .posts-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: ${spacing}px;
+  }
 `;

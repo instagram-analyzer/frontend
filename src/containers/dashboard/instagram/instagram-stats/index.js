@@ -1,7 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { PostsContainer, ProfileContainer, PostsTable } from "./containerStyles.js";
+import { 
+  PostsContainer, 
+  ProfileContainer, 
+  PostsTable,
+  GraphContainer
+} from "./containerStyles.js";
 import {
   getAccount,
   getAccountGrowth,
@@ -15,7 +20,7 @@ import DataTable from "../../../../components/table";
 import Post from "../../../../components/instagram-post";
 import Modal from "../../../../components/modal";
 import InstagramServiceForm from "../../../../components/instagram-service-form";
-// import LineGraph from "../../../../components/graphs/line-graph";
+import LineGraph from "../../../../components/graphs/line-graph";
 import Footer from "../../../../components/footer";
 
 export class InstagramStats extends React.Component {
@@ -124,30 +129,62 @@ export class InstagramStats extends React.Component {
           </PostsTable>
         </ProfileContainer>
 
-          {/* <div className="graph-container">
-            <div className="graph-header">
-            </div>
-            <LineGraph
-                data={this.props.accountStats.map(d => ({
-                  name: d.created_at,
-                  pv: d.follower_count,
-                  uv: d.posts_count
-                }))}
-              />
-          </div> */}
+        <GraphContainer>
+          <div className="graph-header">
+            <h2>Followers<span>(growth over time)</span></h2>
+          </div>
+          <LineGraph
+              data={this.props.accountStats.map(d => ({
+                name: d.created_at,
+                pv: d.follower_count,
+                uv: d.posts_count
+              }))}
+            />
+        </GraphContainer>
+
+        <GraphContainer>
+          <div className="graph-header">
+            <h2>Following<span>(growth over time)</span></h2>
+          </div>
+          <LineGraph
+              data={this.props.accountStats.map(d => ({
+                name: d.created_at,
+                pv: d.follower_count,
+                uv: d.posts_count
+              }))}
+            />
+        </GraphContainer>
+
+        <GraphContainer>
+          <div className="graph-header">
+            <h2>Posts<span>(growth over time)</span></h2>
+          </div>
+          <LineGraph
+              data={this.props.accountStats.map(d => ({
+                name: d.created_at,
+                pv: d.follower_count,
+                uv: d.posts_count
+              }))}
+            />
+        </GraphContainer>
 
         {typeof posts !== "undefined" && (
           <PostsContainer>
-            {posts.map(p => {
-              return (
-                <Post
-                  key={p.id}
-                  post={p}
-                  toggleModal={this.toggleModal}
-                  selectPost={this.selectPost}
-                />
-              );
-            })}
+            <div className="posts-header">
+              <h2>Posts</h2>
+            </div>
+            <div className="posts-container">
+              {posts.map(p => {
+                return (
+                  <Post
+                    key={p.id}
+                    post={p}
+                    toggleModal={this.toggleModal}
+                    selectPost={this.selectPost}
+                  />
+                );
+              })}
+            </div>
           </PostsContainer>
         )}
         {servicesModalOpen && (
