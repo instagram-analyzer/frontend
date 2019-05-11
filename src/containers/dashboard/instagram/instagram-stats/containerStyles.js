@@ -20,19 +20,12 @@ export const ProfileContainer = styled.div`
   .graph-header {
     margin: ${spacing}px ${spacing}px 0 ${spacing}px;
   }
-  button {
-    padding: ${spacing / 1.6}px 0;
-    border: unset;
-    font-size: 1.1rem;
-    font-weight: 100;
-    ${paper};
-    color: #ffffff;
-    transition: 0.2s;
-    &:hover {
-      cursor: pointer;
-      background-color: ${secondary};
-    }
-  }
+`;
+
+export const PostsTable = styled.div`
+  display: flex;
+  width: 100%;
+  margin: ${spacing}px;
 `;
 
 export const PostsContainer = styled.div`
@@ -40,4 +33,7 @@ export const PostsContainer = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   margin: ${spacing}px;
+  .table{
+    width: 100%;
+  }
 `;
