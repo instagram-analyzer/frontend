@@ -30,6 +30,10 @@ export const PostsTable = styled.div`
     width: 100%;
     border-radius: 0px;
   }
+  .jss6{
+    width: 100%;
+    border-radius: 0px;
+  }
 `;
 
 export const PostsContainer = styled.div`
