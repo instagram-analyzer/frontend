@@ -1,5 +1,7 @@
 import React from "react";
 import MaterialDatatable from "material-datatable";
+import NumberFormat from "react-number-format";
+import moment from "moment";//taken_at_timestamp
 
 const options = {
   filterType: "checkbox",
@@ -10,6 +12,21 @@ class DataTable extends React.Component {
   state = {
     data: [],
     columns: [
+      {
+        name: "Posted At",
+        field: "posted_at",
+        options: {
+          filter: true,
+          sort: true,
+          customSortValue: value => value.posted_at,
+          customBodyRender: value => {
+            console.log(value)
+            return(
+              <h2>{moment.unix(value.posted_at).format('MM/DD/YYYY h:mmA')}</h2>
+            )
+          }
+        },
+      },
       {
         name: "Link",
         field: "link",
@@ -28,7 +45,13 @@ class DataTable extends React.Component {
         field: "likes",
         options: {
           filter: true,
-          sort: true
+          sort: true,
+          customSortValue: value => value.likes,
+          customBodyRender: value => {
+            return(
+              <NumberFormat value={value.likes} displayType={"text"} thousandSeparator />
+            )
+          }
         }
       },
       {
@@ -36,7 +59,13 @@ class DataTable extends React.Component {
         field: "comments",
         options: {
           filter: true,
-          sort: true
+          sort: true,
+          customSortValue: value => value.comments,
+          customBodyRender: value => {
+            return(
+              <NumberFormat value={value.comments} displayType={"text"} thousandSeparator />
+            )
+          }
         }
       },
       {
@@ -44,7 +73,13 @@ class DataTable extends React.Component {
         field: "views",
         options: {
           filter: true,
-          sort: true
+          sort: true,
+          customSortValue: value => value.views,
+          customBodyRender: value => {
+            return(
+              <NumberFormat value={value.views} displayType={"text"} thousandSeparator />
+            )
+          }
         }
       },
       {
@@ -60,7 +95,18 @@ class DataTable extends React.Component {
         field: "engagement",
         options: {
           filter: true,
-          sort: true
+          sort: true,
+          customSortValue: value => value.engagement,
+          customBodyRender: value => {
+            return(
+              <h2 style={
+                {color: value.engagement > 3 ? 'green' 
+                : value.engagement < 1 ? 'red' :
+                'orange' 
+                }
+              }>{value.engagement}%</h2>
+            )
+          }
         }
       }
     ]
@@ -78,6 +124,7 @@ class DataTable extends React.Component {
     let data = [];
     this.props.posts.map(p => {
       data.push({
+        posted_at: p.taken_at_timestamp,
         likes: p.likes_count,
         comments: p.comments_count,
         views: p.view_count,
