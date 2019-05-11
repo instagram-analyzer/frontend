@@ -15,8 +15,13 @@ class DataTable extends React.Component {
         field: "link",
         options: {
           filter: true,
-          sort: true
-        }
+          sort: true,
+          customBodyRender: value => {
+            return(
+              <a href={value.link} target="_blank" rel="noopener noreferrer">{value.link}</a>
+            )
+          }
+        },
       },
       {
         name: "Likes",

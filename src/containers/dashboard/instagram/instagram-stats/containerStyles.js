@@ -26,6 +26,10 @@ export const PostsTable = styled.div`
   display: flex;
   width: 100%;
   margin: ${spacing}px;
+  .MuiPaper-rounded-6{
+    width: 100%;
+    border-radius: 0px;
+  }
 `;
 
 export const PostsContainer = styled.div`
@@ -33,7 +37,4 @@ export const PostsContainer = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   margin: ${spacing}px;
-  .table{
-    width: 100%;
-  }
 `;

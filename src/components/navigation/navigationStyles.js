@@ -9,6 +9,7 @@ export const NavSpacing = styled.div`
 export const NavbarContainer = styled.nav`
     position: fixed;
     top: 0;
+    z-index: 5;
     width: 100%;
     height: 55px;
     ${paper};
