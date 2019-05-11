@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { PostsContainer, ProfileContainer } from "./containerStyles.js";
+import { PostsContainer, ProfileContainer, PostsTable } from "./containerStyles.js";
 import {
   getAccount,
   getAccountGrowth,
@@ -11,12 +11,13 @@ import {
 } from "../../../../store/actions/InstagramActions.js";
 import ProfileCard from "../../../../components/profile-card";
 import AverageCards from "../../../../components/profile-card/average-cards";
+import DataTable from "../../../../components/table";
 import Post from "../../../../components/instagram-post";
 import Modal from "../../../../components/modal";
 import InstagramServiceForm from "../../../../components/instagram-service-form";
-import LineGraph from "../../../../components/graphs/line-graph";
+// import LineGraph from "../../../../components/graphs/line-graph";
 import Footer from "../../../../components/footer";
-import DataTable from "../../../../components/table";
+
 export class InstagramStats extends React.Component {
   state = {
     servicesModalOpen: false,
@@ -77,7 +78,7 @@ export class InstagramStats extends React.Component {
   };
 
   render() {
-    const { instagramAccount, services, getPosts } = this.props;
+    const { instagramAccount, services } = this.props;
     const { servicesModalOpen } = this.state;
 
     const {
@@ -118,22 +119,22 @@ export class InstagramStats extends React.Component {
               average_views={average_views}
             />
           </div>
-          <div className="graph-container">
-            <div className="graph-header">
-              <button onClick={() => getPosts(instagram_id)}>
-                GET ALL POSTS
-              </button>
-            </div>
-            {typeof posts !== "undefined" && <DataTable posts={posts} />}
-            {/*<LineGraph
-            data={this.props.accountStats.map(d => ({
-              name: d.created_at,
-              pv: d.follower_count,
-              uv: d.posts_count
-            }))}
-          />*/}
-          </div>
+          <PostsTable>
+            {typeof posts !== "undefined" && <DataTable posts={posts} className="table"/>}
+          </PostsTable>
         </ProfileContainer>
+
+          {/* <div className="graph-container">
+            <div className="graph-header">
+            </div>
+            <LineGraph
+                data={this.props.accountStats.map(d => ({
+                  name: d.created_at,
+                  pv: d.follower_count,
+                  uv: d.posts_count
+                }))}
+              />
+          </div> */}
 
         {typeof posts !== "undefined" && (
           <PostsContainer>
