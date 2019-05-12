@@ -122,7 +122,7 @@ class DataTable extends React.Component {
         posted_at: p.taken_at_timestamp,
         likes: p.likes_count,
         comments: p.comments_count,
-        views: p.view_count,
+        views: p.view_count || 0,
         video: p.is_video ? "YES" : "NO",
         engagement: p.engagment,
         link: `https://instagram.com/p/${p.shortcode}`
