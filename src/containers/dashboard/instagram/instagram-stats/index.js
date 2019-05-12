@@ -105,7 +105,7 @@ export class InstagramStats extends React.Component {
       overTimeData
     } = instagramAccount;
 
-    if(typeof posts !== "undefined"){posts.length = 4;}
+    // if(typeof posts !== "undefined"){posts.length = 4;}
 
     return (
       <>
