@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {} from './containerStyles.js';
 import Search from '../../../../components/instagram-search';
 import Footer from '../../../../components/footer';
 
