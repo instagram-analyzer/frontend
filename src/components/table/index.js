@@ -1,16 +1,17 @@
 import React from "react";
 import MaterialDatatable from "material-datatable";
 import NumberFormat from "react-number-format";
-import moment from "moment";//taken_at_timestamp
+import moment from "moment";
 
-const options = {
-  filterType: "checkbox",
-  rowsPerPage: 5
-};
+import { EnagagementLabel } from './tableStyles.js';
 
 class DataTable extends React.Component {
   state = {
     data: [],
+    options: {
+      filterType: "checkbox",
+      rowsPerPage: this.props.rows
+    },
     columns: [
       {
         name: "Posted At",
@@ -98,12 +99,15 @@ class DataTable extends React.Component {
           customSortValue: value => value.engagement,
           customBodyRender: value => {
             return(
-              <h2 style={
-                {color: value.engagement > 3 ? 'green' 
-                : value.engagement < 1 ? 'red' :
-                'orange' 
+              <EnagagementLabel 
+                bg={
+                  value.engagement > 3 ? 'green' 
+                  : value.engagement < 1 ? 'red' :
+                  'orange' 
                 }
-              }>{value.engagement}%</h2>
+              >
+              {value.engagement}%
+              </EnagagementLabel>
             )
           }
         }
@@ -112,14 +116,6 @@ class DataTable extends React.Component {
   };
 
   componentDidMount = () => {
-    // {
-    //   likes: "Name",
-    //   comments: "Title 1",
-    //   views: "Location 1",
-    //   video: 30,
-    //   engagement: 10,
-    //   link: "something"
-    // }
     let data = [];
     this.props.posts.map(p => {
       data.push({
@@ -135,7 +131,7 @@ class DataTable extends React.Component {
     this.setState({ data });
   };
   render() {
-    const { data, columns } = this.state;
+    const { data, columns, options } = this.state;
     return (
       <MaterialDatatable
         title={"Posts List"}

@@ -12,8 +12,7 @@ import {
   getAccount,
   getAccountGrowth,
   getServices,
-  sendServices,
-  getPosts
+  sendServices
 } from "../../../../store/actions/InstagramActions.js";
 import ProfileCard from "../../../../components/profile-card";
 import AverageCards from "../../../../components/profile-card/average-cards";
@@ -126,10 +125,11 @@ export class InstagramStats extends React.Component {
               average_likes={average_likes}
               average_comments={average_comments}
               average_views={average_views}
+              username={this.props.match.params.username}
             />
           </div>
           <PostsTable>
-            {typeof posts !== "undefined" && <DataTable posts={posts} className="table"/>}
+            {typeof posts !== "undefined" && <DataTable posts={posts} rows="5"/>}
           </PostsTable>
         </ProfileContainer>
 
@@ -178,18 +178,21 @@ export class InstagramStats extends React.Component {
         {typeof posts !== "undefined" && (
           <PostsContainer>
             <div className="posts-header">
-              <h2>Posts</h2>
+              <h2>Viral Posts</h2>
             </div>
             <div className="posts-container">
-              {posts.map(p => {
-                return (
-                  <Post
-                    key={p.id}
-                    post={p}
-                    toggleModal={this.toggleModal}
-                    selectPost={this.selectPost}
-                  />
-                );
+              {posts.filter(p => {
+                console.log(p)
+                return p.engagment > 3
+              }).map(p => {
+                  return (
+                    <Post
+                      key={p.id}
+                      post={p}
+                      toggleModal={this.toggleModal}
+                      selectPost={this.selectPost}
+                    />
+                  );
               })}
             </div>
           </PostsContainer>
@@ -248,7 +251,6 @@ export default connect(
     getAccount,
     getAccountGrowth,
     getServices,
-    sendServices,
-    getPosts
+    sendServices
   }
 )(InstagramStats);

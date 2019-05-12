@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 
 import { CardContainer, CardsContainer } from './cardStyles.js';
@@ -13,12 +14,20 @@ const Card = ({ value, text }) => (
 const AverageCards = ({
     average_likes,
     average_comments,
-    average_views    
+    average_views,
+    username 
 }) => (
     <CardsContainer>
-        <Card value={average_likes} text="Average Likes"/>
-        <Card value={average_comments} text="Average Comments"/>
-        <Card value={average_views} text="Average Views"/>
+        <div>
+            <Card value={average_likes} text="Average Likes"/>
+            <Card value={average_comments} text="Average Comments"/>
+            <Card value={average_views} text="Average Views"/>
+        </div>
+        <Link to={`/dashboard/instagram/${username}/posts`}>
+            <button className="view-posts-button">
+                View All Posts Table
+            </button>
+        </Link>
     </CardsContainer>
 )
 
