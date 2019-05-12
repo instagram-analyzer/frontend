@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import moment from 'moment';
 
 import { 
   PostsContainer, 
@@ -100,8 +101,11 @@ export class InstagramStats extends React.Component {
       average_comments,
       average_views,
       posts,
-      instagram_id
+      instagram_id,
+      overTimeData
     } = instagramAccount;
+
+    if(typeof posts !== "undefined"){posts.length = 4;}
 
     return (
       <>
@@ -129,44 +133,47 @@ export class InstagramStats extends React.Component {
           </PostsTable>
         </ProfileContainer>
 
+        {typeof overTimeData !== "undefined" &&
         <GraphContainer>
           <div className="graph-header">
             <h2>Followers<span>(growth over time)</span></h2>
           </div>
           <LineGraph
-              data={this.props.accountStats.map(d => ({
-                name: d.created_at,
-                pv: d.follower_count,
-                uv: d.posts_count
+              data={overTimeData.map(d => ({
+                name: moment(d.created_at).format("MM/DD/YYYY"),
+                followers_growth: d.follower_growth
               }))}
+              datakey="followers_growth"
             />
-        </GraphContainer>
+        </GraphContainer>}
 
+        {typeof overTimeData !== "undefined" &&        
         <GraphContainer>
           <div className="graph-header">
             <h2>Following<span>(growth over time)</span></h2>
           </div>
           <LineGraph
-              data={this.props.accountStats.map(d => ({
-                name: d.created_at,
-                pv: d.follower_count,
-                uv: d.posts_count
+              data={overTimeData.map(d => ({
+                name: moment(d.created_at).format("MM/DD/YYYY"),
+                following_growth: d.following_growth
               }))}
+              datakey="following_growth"
             />
-        </GraphContainer>
+        </GraphContainer>}
 
+        {typeof overTimeData !== "undefined" &&        
         <GraphContainer>
           <div className="graph-header">
             <h2>Posts<span>(growth over time)</span></h2>
           </div>
           <LineGraph
-              data={this.props.accountStats.map(d => ({
-                name: d.created_at,
-                pv: d.follower_count,
-                uv: d.posts_count
+              data={overTimeData.map(d => ({
+                name: moment(d.created_at).format("MM/DD/YYYY"),
+                posts_growth: d.posts_growth
               }))}
+              datakey="posts_growth"
             />
-        </GraphContainer>
+        </GraphContainer>}
 
         {typeof posts !== "undefined" && (
           <PostsContainer>

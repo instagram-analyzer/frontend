@@ -20,7 +20,6 @@ class DataTable extends React.Component {
           sort: true,
           customSortValue: value => value.posted_at,
           customBodyRender: value => {
-            console.log(value)
             return(
               <h2>{moment.unix(value.posted_at).format('MM/DD/YYYY h:mmA')}</h2>
             )
