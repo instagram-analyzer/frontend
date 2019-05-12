@@ -1,7 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
+import moment from 'moment';
 
-import { PostsContainer, ProfileContainer, PostsTable } from "./containerStyles.js";
+import { 
+  PostsContainer, 
+  ProfileContainer, 
+  PostsTable,
+  GraphContainer
+} from "./containerStyles.js";
 import {
   getAccount,
   getAccountGrowth,
@@ -15,7 +21,7 @@ import DataTable from "../../../../components/table";
 import Post from "../../../../components/instagram-post";
 import Modal from "../../../../components/modal";
 import InstagramServiceForm from "../../../../components/instagram-service-form";
-// import LineGraph from "../../../../components/graphs/line-graph";
+import LineGraph from "../../../../components/graphs/line-graph";
 import Footer from "../../../../components/footer";
 
 export class InstagramStats extends React.Component {
@@ -95,8 +101,11 @@ export class InstagramStats extends React.Component {
       average_comments,
       average_views,
       posts,
-      instagram_id
+      instagram_id,
+      overTimeData
     } = instagramAccount;
+
+    if(typeof posts !== "undefined"){posts.length = 4;}
 
     return (
       <>
@@ -124,30 +133,65 @@ export class InstagramStats extends React.Component {
           </PostsTable>
         </ProfileContainer>
 
-          {/* <div className="graph-container">
-            <div className="graph-header">
-            </div>
-            <LineGraph
-                data={this.props.accountStats.map(d => ({
-                  name: d.created_at,
-                  pv: d.follower_count,
-                  uv: d.posts_count
-                }))}
-              />
-          </div> */}
+        {typeof overTimeData !== "undefined" &&
+        <GraphContainer>
+          <div className="graph-header">
+            <h2>Followers<span>(growth over time)</span></h2>
+          </div>
+          <LineGraph
+              data={overTimeData.map(d => ({
+                name: moment(d.created_at).format("MM/DD/YYYY"),
+                followers_growth: d.follower_growth
+              }))}
+              datakey="followers_growth"
+            />
+        </GraphContainer>}
+
+        {typeof overTimeData !== "undefined" &&        
+        <GraphContainer>
+          <div className="graph-header">
+            <h2>Following<span>(growth over time)</span></h2>
+          </div>
+          <LineGraph
+              data={overTimeData.map(d => ({
+                name: moment(d.created_at).format("MM/DD/YYYY"),
+                following_growth: d.following_growth
+              }))}
+              datakey="following_growth"
+            />
+        </GraphContainer>}
+
+        {typeof overTimeData !== "undefined" &&        
+        <GraphContainer>
+          <div className="graph-header">
+            <h2>Posts<span>(growth over time)</span></h2>
+          </div>
+          <LineGraph
+              data={overTimeData.map(d => ({
+                name: moment(d.created_at).format("MM/DD/YYYY"),
+                posts_growth: d.posts_growth
+              }))}
+              datakey="posts_growth"
+            />
+        </GraphContainer>}
 
         {typeof posts !== "undefined" && (
           <PostsContainer>
-            {posts.map(p => {
-              return (
-                <Post
-                  key={p.id}
-                  post={p}
-                  toggleModal={this.toggleModal}
-                  selectPost={this.selectPost}
-                />
-              );
-            })}
+            <div className="posts-header">
+              <h2>Posts</h2>
+            </div>
+            <div className="posts-container">
+              {posts.map(p => {
+                return (
+                  <Post
+                    key={p.id}
+                    post={p}
+                    toggleModal={this.toggleModal}
+                    selectPost={this.selectPost}
+                  />
+                );
+              })}
+            </div>
           </PostsContainer>
         )}
         {servicesModalOpen && (

@@ -7,8 +7,8 @@ export const GraphContainer = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    height: 300px;
+    box-sizing: border-box;
+    height: 360px;
     margin: ${spacing}px;
     padding: ${spacing}px;
     ${paper};
