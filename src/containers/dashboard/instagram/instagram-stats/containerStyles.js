@@ -19,10 +19,14 @@ export const PostsTable = styled.div`
   .MuiPaper-rounded-6{
     width: 100%;
     border-radius: 0px;
+    ${paper};
+    background-color: #FFFFFF;
   }
   .jss6{
     width: 100%;
     border-radius: 0px;
+    ${paper};
+    background-color: #FFFFFF;
   }
 `;
 

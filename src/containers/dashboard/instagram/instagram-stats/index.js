@@ -21,6 +21,7 @@ import Post from "../../../../components/instagram-post";
 import Modal from "../../../../components/modal";
 import InstagramServiceForm from "../../../../components/instagram-service-form";
 import LineGraph from "../../../../components/graphs/line-graph";
+import AreaChart from "../../../../components/graphs/area-chart";
 import Footer from "../../../../components/footer";
 
 export class InstagramStats extends React.Component {
@@ -100,11 +101,8 @@ export class InstagramStats extends React.Component {
       average_comments,
       average_views,
       posts,
-      instagram_id,
       overTimeData
     } = instagramAccount;
-
-    // if(typeof posts !== "undefined"){posts.length = 4;}
 
     return (
       <>
@@ -134,34 +132,35 @@ export class InstagramStats extends React.Component {
         </ProfileContainer>
 
         {typeof overTimeData !== "undefined" &&
+        <>
         <GraphContainer>
           <div className="graph-header">
             <h2>Followers<span>(growth over time)</span></h2>
           </div>
-          <LineGraph
-              data={overTimeData.map(d => ({
-                name: moment(d.created_at).format("MM/DD/YYYY"),
-                followers_growth: d.follower_growth
-              }))}
-              datakey="followers_growth"
-            />
-        </GraphContainer>}
+          <AreaChart
+            data={
+              overTimeData.map(d => ({
+              name: moment(d.created_at).format("MM/DD/YYYY"),
+              follower_growth: d.follower_growth
+            }))
+          }
+            datakey="follower_growth"
+          />
+        </GraphContainer>
 
-        {typeof overTimeData !== "undefined" &&        
         <GraphContainer>
           <div className="graph-header">
             <h2>Following<span>(growth over time)</span></h2>
           </div>
-          <LineGraph
-              data={overTimeData.map(d => ({
-                name: moment(d.created_at).format("MM/DD/YYYY"),
-                following_growth: d.following_growth
-              }))}
-              datakey="following_growth"
-            />
-        </GraphContainer>}
-
-        {typeof overTimeData !== "undefined" &&        
+          <AreaChart
+            data={overTimeData.map(d => ({
+              name: moment(d.created_at).format("MM/DD/YYYY"),
+              following_growth: d.following_growth
+            }))}
+            datakey="following_growth"
+          />
+        </GraphContainer>
+       
         <GraphContainer>
           <div className="graph-header">
             <h2>Posts<span>(growth over time)</span></h2>
@@ -173,7 +172,8 @@ export class InstagramStats extends React.Component {
               }))}
               datakey="posts_growth"
             />
-        </GraphContainer>}
+        </GraphContainer>
+        </>}
 
         {typeof posts !== "undefined" && (
           <PostsContainer>
